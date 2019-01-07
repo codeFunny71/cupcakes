@@ -13,6 +13,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
     <title>Document</title>
 
     <?php
@@ -22,25 +27,81 @@
 
 </head>
 <body>
+    <?php
+        $cupcakeFlavors = array("grasshopper => The Grasshopper", "maple" => "Whiskey Maple Bacon",
+            "carrot" => "Carrot Walnut","caramel" => "Salted Caramel Cupcake","velvet" => "Red Velvet",
+            "lemon" => "Lemon Drop","tiramisu" => "Tiramisu");
+    ?>
 
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <h2>Cupcake Order Form</h2>
-    <span class="error">* required fields.</span><br><br>
-    Name:
-    <br>
-    <input class="input" name="name" type="text" value="<?php if ( isset( $_POST["name"] ) ) echo $_POST["name"]?>">
-    <span class="error">* <?php echo $nameError;?></span>
-    <br>
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">The Grasshopper
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Whiskey Maple Bacon
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Carrot Walnut
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Salted Caramel Cupcake
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Red Velvet
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Lemon Drop
-    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Tiramisu
-    <input type="submit" />
+    <?php
+        //Initialize variables
+        $formOk = true;
+        $nameError = "";
+        $cupcakeError = "";
+        $name = "";
+        $cupcake = "";
 
-</form>
+        function test_input($data){
+            $data = trim($data);
+            $data = stripcslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+
+        if(isset($_POST['submit'])){
+            if(empty($_POST['name'])){
+                $nameError = "Name is required";
+                $formOk = false;
+            }else{
+                $name = test_input($_POST['name']);
+                //check name only contains letters and whitespace
+                if(!preg_match("/^[a-zA-Z]*$/", $name)) {
+                    $nameError = "Only letters and white space allowed";
+                    $formOk = false;
+                }
+            }
+            if(empty($_POST['flavor'])){
+                $cupcakeError = "Cupcake choice is required";
+            }else{
+                $cupcake = test_input($_POST['cupcake']);
+            }
+        }
+    ?>
+
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <h2>Cupcake Order Form</h2>
+        <span class="error">* required fields.</span><br><br>
+        Name:
+        <br>
+        <input class="input" name="name" type="text" value="<?php if ( isset( $_POST["name"] ) ) echo $_POST["name"]?>">
+        <span class="error">* <?php echo $nameError;?></span>
+        <br>
+        <?php
+            foreach($cupcakeFlavors as $key => $value){
+                echo '<input class="checkbox" type="checkbox" name="flavors[]" ';
+                if(isset($_POST["flavors"])){if(in_array($key,
+                    $_POST["flavors"])){ echo  'checked="checked"'; }};
+                echo ' value="'.$key.'">'.$value;
+                echo '<br>';
+            }
+        ?>
+        <span class="error">*<?php echo $cupcakeError;?></span><br><br>
+        <input class="submit" name="submit" type="submit" value="Submit" />
+    </form>
+
+    <div>
+        <?php
+            if(isset($_POST["submit"])){
+                if($formOk){
+                    echo '<ul>';
+                    foreach ($_POST["flavors"] as $flavor){
+                        echo '<li>'.$flavor.'</li>>';
+                    }
+                    echo '</ul>';
+                }
+            }
+        ?>
+    </div>
 
 </body>
 </html>
