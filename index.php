@@ -24,6 +24,21 @@
 <body>
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <h2>Cupcake Order Form</h2>
+    <span class="error">* required fields.</span><br><br>
+    Name:
+    <br>
+    <input class="input" name="name" type="text" value="<?php if ( isset( $_POST["name"] ) ) echo $_POST["name"]?>">
+    <span class="error">* <?php echo $nameError;?></span>
+    <br>
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">The Grasshopper
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Whiskey Maple Bacon
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Carrot Walnut
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Salted Caramel Cupcake
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Red Velvet
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Lemon Drop
+    <input class="checkbox" type="checkbox" name="cupcake[]" value="">Tiramisu
+    <input type="submit" />
 
 </form>
 
