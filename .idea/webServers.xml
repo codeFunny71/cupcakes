@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bd67f345-b5c4-4e8e-b66a-5464daa0e388" name="IT328" url="http://mabsher.greenriverdev.com">
+        <fileTransfer host="mabsher.greenriverdev.com" port="18765" rootFolder="/home/mabsherg/public_html" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="18765" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
