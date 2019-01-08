@@ -4,6 +4,7 @@
  * User: marcusabsher
  * Date: 2019-01-03
  * Time: 14:21
+ *
  */
 ?>
 <!doctype html>
@@ -49,6 +50,7 @@
             return $data;
         }
 
+        //Form Validation
         if(isset($_POST['submit'])){
             if(empty($_POST['name'])){
                 $nameError = "Name is required";
@@ -61,14 +63,16 @@
                     $formOk = false;
                 }
             }
-            if(empty($_POST['flavor'])){
+            if(empty($_POST['flavors'])){
                 $cupcakeError = "Cupcake choice is required";
             }else{
-                $cupcake = test_input($_POST['cupcake']);
+                foreach ($_POST['flavors'] as $flavor){
+                    $cupcake = test_input($flavor);
+                }
             }
         }
     ?>
-
+    <div class="padding">
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <h2>Cupcake Order Form</h2>
         <span class="error">* required fields.</span><br><br>
@@ -102,7 +106,6 @@
                     echo '<ul>';
                     foreach ($_POST["flavors"] as $flavor){
                         echo '<li>'.$cupcakeFlavors[$flavor].'</li>';
-                        $count++;
                     }
                     echo '</ul>';
                     echo '<p>Order Total:    $'.$total.'</p>';
@@ -110,7 +113,7 @@
             }
         ?>
     </div>
-
+    </div>>
 </body>
 </html>
 
