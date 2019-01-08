@@ -91,7 +91,7 @@
                 echo '<br>';
             }
         ?>
-        <span class="error">*<?php echo $cupcakeError;?></span><br><br>
+        <span class="error">*<?php echo $cupcakeError;?></span><br>
         <input class="submit" name="submit" type="submit" value="Submit" />
     </form>
 
@@ -115,7 +115,7 @@
             }
         ?>
     </div>
-    </div>>
+    </div>
 </body>
 </html>
 
