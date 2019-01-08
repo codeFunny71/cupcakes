@@ -28,7 +28,7 @@
 </head>
 <body>
     <?php
-        $cupcakeFlavors = array("grasshopper => The Grasshopper", "maple" => "Whiskey Maple Bacon",
+        $cupcakeFlavors = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey Maple Bacon",
             "carrot" => "Carrot Walnut","caramel" => "Salted Caramel Cupcake","velvet" => "Red Velvet",
             "lemon" => "Lemon Drop","tiramisu" => "Tiramisu");
     ?>
@@ -36,6 +36,7 @@
     <?php
         //Initialize variables
         $formOk = true;
+        $count = 0;
         $nameError = "";
         $cupcakeError = "";
         $name = "";
@@ -78,10 +79,10 @@
         <br>
         <?php
             foreach($cupcakeFlavors as $key => $value){
-                echo '<input class="checkbox" type="checkbox" name="flavors[]" ';
-                if(isset($_POST["flavors"])){if(in_array($key,
-                    $_POST["flavors"])){ echo  'checked="checked"'; }};
-                echo ' value="'.$key.'">'.$value;
+                echo '<label><input class="checkbox" type="checkbox" name="flavors[]" ';
+                if(isset($_POST["flavors"])){if(in_array($key, $_POST["flavors"])){
+                    echo  'checked="checked"'; }};
+                echo ' value="'.$key.'">'.$value.'</label>';
                 echo '<br>';
             }
         ?>
@@ -93,11 +94,18 @@
         <?php
             if(isset($_POST["submit"])){
                 if($formOk){
+                    $total = sizeof($_POST["flavors"])*3.50;
+                    $total = money_format('%.2n', $total);
+                    echo 'Thank you, '.$name.', for your order!';
+                    echo '<br><br>';
+                    echo '<p>Order Summary:</p>';
                     echo '<ul>';
                     foreach ($_POST["flavors"] as $flavor){
-                        echo '<li>'.$flavor.'</li>>';
+                        echo '<li>'.$cupcakeFlavors[$flavor].'</li>';
+                        $count++;
                     }
                     echo '</ul>';
+                    echo '<p>Order Total:    $'.$total.'</p>';
                 }
             }
         ?>
